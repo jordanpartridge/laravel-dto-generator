@@ -1,19 +1,19 @@
-  
+
 <?php
 
 namespace JordanPartridge\DtoGenerator\Generators;
 
-use Illuminate\Support\Str;  
+use Illuminate\Support\Str;
 use Nette\PhpGenerator\ClassType;
-use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\PhpFile;  
 use Nette\PhpGenerator\PsrPrinter;
 
-class DtoGenerator
+class DtoGenerator 
 {
     protected array $schema;
 
     public function generate(array $schema): string
-    {
+    {  
         $this->schema = $schema;
 
         $class = $this->generateClass();
@@ -29,7 +29,7 @@ class DtoGenerator
     protected function generateClass(): ClassType
     {
         $class = new ClassType($this->getDtoClassName());
-        $class->setExtends('DataTransferObject');  
+        $class->setExtends('DataTransferObject');
         $class->addComment('This DTO was automatically generated from a JSON schema.');
         $class->addComment('@see ' . $this->schema['$id']);
 
@@ -37,9 +37,9 @@ class DtoGenerator
     }
 
     protected function addProperties(ClassType $class): void
-    {
+    {  
         foreach ($this->schema['properties'] as $name => $property) {
-            $type = $this->mapType($property['type']);
+            $type = $this->mapType($property['type']);  
             $class->addProperty($name)->setType($type);
         }
     }
@@ -52,10 +52,10 @@ class DtoGenerator
     protected function mapType(string $type): string
     {
         return match ($type) {
-            'integer' => 'int',
+            'integer' => 'int', 
             'number' => 'float',
             'boolean' => 'bool',
             default => $type,
-        };
+        };  
     }
 }
